@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 
 class UserProfile extends StatelessWidget{
-  const UserProfile({super.key});
+   List<MenuRowData> firstMenuRaw =[
+    MenuRowData(Icons.favorite,"Избранное"),
+    MenuRowData(Icons.call,"Звонки"),
+    MenuRowData(Icons.computer,"Устройства"),
+    MenuRowData(Icons.folder,"Папка с чатами"),
+
+  ];
+   List<MenuRowData> secondMenuRaw =[
+    MenuRowData(Icons.notifications,"Уведомления и звуки"),
+    MenuRowData(Icons.privacy_tip,"Конфиденциальность"),
+    MenuRowData(Icons.date_range,"Данные и память"),
+    MenuRowData(Icons.brush,"Оформление"),
+    MenuRowData(Icons.language,"Язык"),
+
+  ];
+   UserProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(title: Text('Настройки'),
+      backgroundColor: Colors.blue,
       ),
       body: Container(
         width: double.infinity,
@@ -14,22 +31,86 @@ class UserProfile extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 30,
-              ),
-            _AvatarWidget(),
-              SizedBox(
-              height: 30,
-              ),
-            _UserNameWidget(),
-            SizedBox(height: 10,),
-            _UserPhoneWidget(),
-            SizedBox(height: 10,),
-            _UserNicknameWidget(),
+             _UserInfo(),
+              SizedBox(height: 30,),
+              _MenuWidget(menuRaw: firstMenuRaw,),
+              SizedBox(height: 30,),
+              _MenuWidget(menuRaw: secondMenuRaw,),
           ],
         ),
       ),
       );
+  }
+
+}
+
+class _MenuWidget extends StatelessWidget{
+  final List<MenuRowData> menuRaw;
+  const _MenuWidget ({super.key, 
+  required this.menuRaw,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      child: Column(
+        children: menuRaw.map((data) => _MenuWidgetRow(data: data)).toList(),
+        ),     
+    );
+  }
+}
+
+class MenuRowData{
+  final IconData icon;
+final String text;
+
+MenuRowData(this.icon, this.text);
+}
+
+class _MenuWidgetRow extends StatelessWidget{
+final MenuRowData data;
+const _MenuWidgetRow ({super.key,
+required this.data,});
+
+@override
+  Widget build(BuildContext context) {
+    return   Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Row(children: [
+              Icon(data.icon),
+              SizedBox(width: 15,),
+              Expanded (child: Text(data.text)),
+              Icon(Icons.chevron_right),
+            ],),
+          );
+    
+  }
+
+}
+
+class _UserInfo extends StatelessWidget{
+  const _UserInfo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      child: Column(children: [
+         SizedBox(height: 30,),
+              _AvatarWidget(),
+                SizedBox(height: 30,),
+              _UserNameWidget(),
+              SizedBox(height: 10,),
+              _UserPhoneWidget(),
+              SizedBox(height: 10,),
+              _UserNicknameWidget(),
+      
+      ],
+      
+      ),
+    );
   }
 
 }
@@ -43,7 +124,7 @@ class _UserNicknameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text('@user_nick',
      style: TextStyle(color: Colors.grey,
-    fontSize: 18,
+    fontSize: 17,
     ),
     );
   }
@@ -71,7 +152,7 @@ class _UserNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('User Name', 
+    return Text('User    <<Name>>    Name', 
     style: TextStyle(color: Colors.black,
     fontSize: 25,
     fontWeight: FontWeight.w600,
